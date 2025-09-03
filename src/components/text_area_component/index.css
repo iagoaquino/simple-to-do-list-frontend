@@ -1,0 +1,33 @@
+.text-area {
+	padding: 12px;
+	font-size: 16px;
+	border: none;
+	outline: none;
+	background: rgb(221, 221, 221);
+	transition: 0.2s ease all;
+	color: rgb(255, 255, 255);
+}
+
+.label-text {
+	color: #888;
+	font-size: 16px;
+	transition: 0.2s ease all;
+}
+
+/* Quando o input tem foco ou texto, o label sobe */
+
+.text-area-conteiner {
+	display: flex;
+	flex-direction: column;
+	margin: 15px;
+}
+
+.text-area:focus {
+	border: 2px solid #ccc;
+	background: rgb(255, 255, 255);
+	color: black;
+}
+
+.text-area-conteiner:focus-within .label-text {
+	font-size: 10px;
+}
