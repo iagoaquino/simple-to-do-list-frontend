@@ -6,7 +6,7 @@ import ShowTasks from './sub_components/ShowTasks';
 import CreateNewTaskModal from './sub_components/CreateNewTaskModal';
 import { PlusIcon } from './components/icon_component/Icon.component';
 
-import { get_all_tasks_request } from './services/api_connection';
+import { getAllTasksRequest } from './services/api_connection';
 
 import type { TaskInterface } from './interfaces';
 
@@ -20,7 +20,7 @@ function App() {
 	const [filtered_task, setFilteredTask] = useState<Array<TaskInterface>>([]);
 
 	const load_tasks = async () => {
-		const response = await get_all_tasks_request();
+		const response = await getAllTasksRequest();
 		if (response.success) {
 			setTaskList(response.content);
 		}

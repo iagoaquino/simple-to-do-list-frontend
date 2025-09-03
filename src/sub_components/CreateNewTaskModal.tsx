@@ -6,7 +6,7 @@ import ModalComponent from '../components/modal_component/Modal.component';
 import TextAreaComponent from '../components/text_area_component/TextArea.component';
 import SwitchComponent from '../components/switch_component/Switch.component';
 
-import { insert_new_task_request } from '../services/api_connection';
+import { insertNewTaskRequest } from '../services/api_connection';
 import type { TaskInterface } from '../interfaces';
 
 type CreateNewTaskModalProps = {
@@ -37,7 +37,7 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 	}, [name_input, description_input, data_input, deadline_checked]);
 
 	const save_new_task = async () => {
-		await insert_new_task_request(task);
+		await insertNewTaskRequest(task);
 	};
 
 	return (
