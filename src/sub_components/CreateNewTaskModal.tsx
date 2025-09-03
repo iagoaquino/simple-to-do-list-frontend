@@ -29,6 +29,7 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 		return {
 			name: name_input!,
 			description: description_input,
+			status: 'em progresso',
 			deadline: deadline_checked
 				? DateTime.fromFormat(data_input, 'yyyy-MM-dd').toFormat('dd/MM/yyyy')
 				: null,
