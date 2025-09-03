@@ -1,0 +1,29 @@
+.card-div {
+	background-color: #fff;
+	display: grid;
+	box-shadow: 2px 0px 14px 8px rgba(0, 0, 0, 0.1);
+	height: 100%;
+}
+
+.box {
+	background: tomato;
+	padding: 20px;
+	color: white;
+}
+
+.body-card {
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+.tittle-card {
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+.footer-card {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
