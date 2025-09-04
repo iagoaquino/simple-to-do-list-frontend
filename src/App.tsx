@@ -6,7 +6,7 @@ import ShowTasks from './sub_components/ShowTasks';
 import CreateNewTaskModal from './sub_components/CreateNewTaskModal';
 import { PlusIcon } from './components/icon_component/Icon.component';
 
-import { get_all_tasks_request } from './services/api_connection';
+import { getAllTasksRequest } from './services/api_connection';
 
 import type { TaskInterface } from './interfaces';
 
@@ -20,7 +20,7 @@ function App() {
 	const [filtered_task, setFilteredTask] = useState<Array<TaskInterface>>([]);
 
 	const load_tasks = async () => {
-		const response = await get_all_tasks_request();
+		const response = await getAllTasksRequest();
 		if (response.success) {
 			setTaskList(response.content);
 		}
@@ -43,13 +43,20 @@ function App() {
 	return (
 		<div className="main-screen">
 			<Header />
-			<div style={{ height: '80%', display: 'flex', flexDirection: 'column' }} className="center">
+			<div
+				style={{
+					height: 'auto',
+					display: 'flex',
+					alignItems: 'center',
+					flexDirection: 'column',
+					overflowY: 'scroll',
+				}}>
 				<SearchBar
 					search_value={search_value}
 					setSearchValue={setSearchValue}
 					searchFunction={search_task}
 				/>
-				<ShowTasks task_list={filtered_task} />
+				<ShowTasks task_list={filtered_task} complementaryFunction={load_tasks} />
 				<div style={{ padding: 10 }}>
 					<button
 						className="primary-button"

@@ -1,7 +1,7 @@
 const Header = () => {
 	return (
-		<div style={{ height: 'auto' }} className="header">
-			<h1 className="no-margin">Minha lista de afazeres</h1>
+		<div style={{ height: '15%', display: 'flex' }} className="header center">
+			<h5 className="no-margin">Minha lista de afazeres</h5>
 		</div>
 	);
 };

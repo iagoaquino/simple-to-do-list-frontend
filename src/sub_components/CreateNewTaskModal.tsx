@@ -6,7 +6,7 @@ import ModalComponent from '../components/modal_component/Modal.component';
 import TextAreaComponent from '../components/text_area_component/TextArea.component';
 import SwitchComponent from '../components/switch_component/Switch.component';
 
-import { insert_new_task_request } from '../services/api_connection';
+import { insertNewTaskRequest } from '../services/api_connection';
 import type { TaskInterface } from '../interfaces';
 
 type CreateNewTaskModalProps = {
@@ -20,8 +20,8 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 	setModalState,
 	complementaryFunction,
 }) => {
-	const [name_input, setNameInput] = useState<string | undefined>();
-	const [description_input, setDescriptionInput] = useState<string | null>(null);
+	const [name_input, setNameInput] = useState<string>('');
+	const [description_input, setDescriptionInput] = useState<string>('');
 	const [data_input, setDataInput] = useState<string>(DateTime.now().plus({ day: 1 }).toISODate());
 	const [deadline_checked, setDeadLineChecked] = useState<boolean>(false);
 
@@ -29,6 +29,7 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 		return {
 			name: name_input!,
 			description: description_input,
+			status: 'em progresso',
 			deadline: deadline_checked
 				? DateTime.fromFormat(data_input, 'yyyy-MM-dd').toFormat('dd/MM/yyyy')
 				: null,
@@ -36,13 +37,20 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 	}, [name_input, description_input, data_input, deadline_checked]);
 
 	const save_new_task = async () => {
-		await insert_new_task_request(task);
+		await insertNewTaskRequest(task);
+	};
+
+	const set_values_to_initial = () => {
+		setNameInput('');
+		setDescriptionInput('');
+		setDeadLineChecked(false);
+		setDataInput(DateTime.now().plus({ day: 1 }).toISODate());
 	};
 
 	return (
 		<ModalComponent
 			modalOpenState={modal_state}
-			size={{ height: 'auto', width: '500px' }}
+			size={{ height: 'auto', width: 'auto' }}
 			Header={() => (
 				<div style={{ padding: '20px' }}>
 					<h4 className="no-margin">Inserir nova tarefa</h4>
@@ -53,11 +61,12 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 					<div style={{ padding: '10px' }}>
 						<button
 							className="primary-button"
-							disabled={name_input === undefined ? true : false}
+							disabled={name_input === '' ? true : false}
 							onClick={async () => {
 								await save_new_task();
 								setModalState(false);
 								complementaryFunction();
+								set_values_to_initial();
 							}}>
 							Inserir
 						</button>
@@ -67,6 +76,7 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 							className="danger-button"
 							onClick={() => {
 								setModalState(false);
+								set_values_to_initial();
 							}}>
 							Cancelar
 						</button>

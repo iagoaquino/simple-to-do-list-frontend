@@ -1,22 +1,17 @@
 const Footer = () => {
 	return (
-		<div style={{ height: 'auto' }} className="footer">
-			<div style={{ padding: '10px', display: 'flex', flexDirection: 'column' }}>
-				<div>Desenvolvido por</div>
-				<div>
-					<h6 className="no-margin">Iago de Aquino Oliveira</h6>
-				</div>
+		<div style={{ height: 'auto', display: 'flex', flexDirection: 'column' }} className="footer">
+			<div>
+				<p className="no-margin">Desenvolvido por: Iago de Aquino Oliveira</p>
 			</div>
-			<div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+			<div style={{ display: 'flex', flexDirection: 'column' }}>
 				<h6 className="no-margin">Contatos</h6>
-				<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-					<div style={{ display: 'flex', flexDirection: 'column' }}>
-						<p className="no-margin">Email </p>
-						<p className="no-margin">iagodeaquino10@gmail.com</p>
+				<div style={{ display: 'flex', flexDirection: 'column' }} className="center">
+					<div style={{ display: 'flex', flexDirection: 'row' }}>
+						<p className="no-margin">Email: iagodeaquino10@gmail.com</p>
 					</div>
-					<div style={{ display: 'flex', flexDirection: 'column' }}>
-						<p className="no-margin"> Github</p>
-						<p className="no-margin">https://github.com/iagoaquino/</p>
+					<div style={{ display: 'flex', flexDirection: 'row' }}>
+						<p className="no-margin">Github: https://github.com/iagoaquino/</p>
 					</div>
 				</div>
 			</div>

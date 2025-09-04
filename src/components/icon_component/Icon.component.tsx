@@ -36,3 +36,20 @@ export function SearchIcon({ ...props }: iconStyle) {
 		</svg>
 	);
 }
+
+export function CheckMarkIcon({ ...props }: iconStyle) {
+	return (
+		<svg {...props} xmlns="http://www.w3.org/2000/svg" className="ionicon" viewBox="0 0 512 512">
+			<g fill="currentColor">
+				<path
+					fill="none"
+					stroke="currentColor"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="32"
+					d="M416 128L192 384l-96-96"
+				/>
+			</g>
+		</svg>
+	);
+}
