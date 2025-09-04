@@ -1,16 +1,20 @@
 import { useMemo, useState } from 'react';
 import { DateTime } from 'luxon';
 
+import { setTaskAsConcludedRequest } from '../services/api_connection';
+
 import CardComponent from '../components/card_component/Card.component';
+import SwitchComponent from '../components/switch_component/Switch.component';
 
 import type { TaskInterface } from '../interfaces';
-import SwitchComponent from '../components/switch_component/Switch.component';
+import { CheckMarkIcon } from '../components/icon_component/Icon.component';
 
 type ShowTasksProps = {
 	task_list: Array<TaskInterface>;
+	complementaryFunction: () => void;
 };
 
-const ShowTasks: React.FC<ShowTasksProps> = ({ task_list }) => {
+const ShowTasks: React.FC<ShowTasksProps> = ({ task_list, complementaryFunction }) => {
 	const [check_show_ongoin, setCheckShowOngoin] = useState<boolean>(true);
 	const [check_show_concluded, setCheckShowConcluded] = useState<boolean>(false);
 
@@ -32,8 +36,6 @@ const ShowTasks: React.FC<ShowTasksProps> = ({ task_list }) => {
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
-				height: '500px',
-				overflowY: 'scroll',
 				alignItems: 'center',
 				width: '80%',
 			}}>
@@ -51,41 +53,64 @@ const ShowTasks: React.FC<ShowTasksProps> = ({ task_list }) => {
 					setCheckedState={setCheckShowConcluded}
 				/>
 			</div>
-			{task_list
-				.filter((task) => filter_list.includes(task.status))
-				.map((task) => (
-					<div style={{ padding: 10, width: '100%', height: 'auto', flexShrink: 1 }}>
-						<CardComponent
-							size={{ height: 'auto', width: '100%' }}
-							components_sizes={{ Header: 'auto', Body: 'auto', Footer: 'auto' }}>
-							<div
-								style={{
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'start',
-								}}>
-								<div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
-									<h4 style={{ margin: 10 }} className="text-start">
-										{task.name}
-									</h4>
-									<p style={{ margin: 10 }} className="text-start">
-										{task.description ? task.description : 'Sem descrição'}
-									</p>
-									<div className="text-start" style={{ flex: 1, display: 'flex' }}>
-										<p className="text-center" style={{ margin: 10 }}>
-											{task.deadline === null
-												? 'Sem prazo estipulado'
-												: `Faltam: ${show_ramaining_time(
-														task.deadline
-												  )} dias para o prazo final dessa tarefa`}
+			<div style={{ width: '100%', height: '400px', overflowY: 'scroll' }}>
+				{task_list.map((task, index) =>
+					filter_list.includes(task.status) ? (
+						<div style={{ padding: 10, width: '100%', height: 'auto', flexShrink: 1 }}>
+							<CardComponent
+								style={{ backgroundColor: task.status === 'concluido' ? '#0296b2' : '#ffffff' }}
+								size={{ height: 'auto', width: '100%' }}
+								components_sizes={{ Header: 'auto', Body: 'auto', Footer: 'auto' }}>
+								<div
+									style={{
+										display: 'flex',
+										flexDirection: 'row',
+										alignItems: 'center',
+										justifyContent: 'start',
+									}}>
+									<div style={{ display: 'flex', flexDirection: 'column', width: '80%' }}>
+										<h4 style={{ margin: 10 }} className="text-start">
+											{task.name}
+										</h4>
+										<p style={{ margin: 10 }} className="text-start">
+											{task.description ? task.description : 'Sem descrição'}
 										</p>
+										<div className="text-start" style={{ flex: 1, display: 'flex' }}>
+											{task.status === 'em progresso' ? (
+												<p className="text-center" style={{ margin: 10 }}>
+													{task.deadline === null
+														? 'Sem prazo estipulado'
+														: `Faltam: ${show_ramaining_time(
+																task.deadline
+														  )} dias para o prazo final dessa tarefa`}
+												</p>
+											) : (
+												<></>
+											)}
+										</div>
+									</div>
+									<div
+										style={{ flex: 1 }}
+										onClick={async () => {
+											await setTaskAsConcludedRequest(index);
+											await complementaryFunction();
+										}}>
+										{task.status === 'em progresso' ? (
+											<button className="primary-button">Concluir</button>
+										) : (
+											<button className="primary-button" disabled>
+												<CheckMarkIcon width={'20px'} height={'20px'} />
+											</button>
+										)}
 									</div>
 								</div>
-							</div>
-						</CardComponent>
-					</div>
-				))}
+							</CardComponent>
+						</div>
+					) : (
+						<></>
+					)
+				)}
+			</div>
 		</div>
 	);
 };
