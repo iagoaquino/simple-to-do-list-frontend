@@ -20,8 +20,8 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 	setModalState,
 	complementaryFunction,
 }) => {
-	const [name_input, setNameInput] = useState<string | undefined>();
-	const [description_input, setDescriptionInput] = useState<string | null>(null);
+	const [name_input, setNameInput] = useState<string>('');
+	const [description_input, setDescriptionInput] = useState<string>('');
 	const [data_input, setDataInput] = useState<string>(DateTime.now().plus({ day: 1 }).toISODate());
 	const [deadline_checked, setDeadLineChecked] = useState<boolean>(false);
 
@@ -40,6 +40,13 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 		await insertNewTaskRequest(task);
 	};
 
+	const set_values_to_initial = () => {
+		setNameInput('');
+		setDescriptionInput('');
+		setDeadLineChecked(false);
+		setDataInput(DateTime.now().plus({ day: 1 }).toISODate());
+	};
+
 	return (
 		<ModalComponent
 			modalOpenState={modal_state}
@@ -54,11 +61,12 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 					<div style={{ padding: '10px' }}>
 						<button
 							className="primary-button"
-							disabled={name_input === undefined ? true : false}
+							disabled={name_input === '' ? true : false}
 							onClick={async () => {
 								await save_new_task();
 								setModalState(false);
 								complementaryFunction();
+								set_values_to_initial();
 							}}>
 							Inserir
 						</button>
@@ -68,6 +76,7 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 							className="danger-button"
 							onClick={() => {
 								setModalState(false);
+								set_values_to_initial();
 							}}>
 							Cancelar
 						</button>
