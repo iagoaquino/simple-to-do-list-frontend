@@ -8,6 +8,7 @@ import SwitchComponent from '../components/switch_component/Switch.component';
 
 import type { TaskInterface } from '../interfaces';
 import { CheckMarkIcon } from '../components/icon_component/Icon.component';
+import ModalComponent from '../components/modal_component/Modal.component';
 
 type ShowTasksProps = {
 	task_list: Array<TaskInterface>;
@@ -15,8 +16,11 @@ type ShowTasksProps = {
 };
 
 const ShowTasks: React.FC<ShowTasksProps> = ({ task_list, complementaryFunction }) => {
+	const [open_modal_confirm, setOpenModalConfirm] = useState<boolean>(false);
 	const [check_show_ongoin, setCheckShowOngoin] = useState<boolean>(true);
 	const [check_show_concluded, setCheckShowConcluded] = useState<boolean>(false);
+
+	const [selected_task_index, setSelectedTaskIndex] = useState<number | null>();
 
 	const filter_list: Array<string> = useMemo(() => {
 		const filter = [];
@@ -39,6 +43,39 @@ const ShowTasks: React.FC<ShowTasksProps> = ({ task_list, complementaryFunction 
 				alignItems: 'center',
 				width: '80%',
 			}}>
+			<ModalComponent
+				modalOpenState={open_modal_confirm}
+				size={{ width: '500px', height: 'auto' }}
+				Header={() => <h4 style={{ margin: 10 }}>Confirmar</h4>}
+				Footer={() => (
+					<div style={{ display: 'flex', flexDirection: 'row' }}>
+						<div style={{ padding: 10, flex: 1 }}>
+							<button
+								className="primary-button"
+								onClick={async () => {
+									await setTaskAsConcludedRequest(selected_task_index!);
+									await complementaryFunction();
+									setOpenModalConfirm(false);
+								}}>
+								Confirmar
+							</button>
+						</div>
+						<div
+							style={{ padding: 10, flex: 1 }}
+							onClick={() => {
+								setOpenModalConfirm(false);
+							}}>
+							<button className="danger-button">Cancelar</button>
+						</div>
+					</div>
+				)}
+				components_sizes={{ Body: 'auto', Footer: 'auto', Header: 'auto' }}>
+				<div style={{ padding: 20 }}>
+					<p>
+						Gostaria de confirmar a conclusão da tarefa "{task_list[selected_task_index!]?.name}"?
+					</p>
+				</div>
+			</ModalComponent>
 			<div style={{ display: 'flex', flexDirection: 'row' }}>
 				<SwitchComponent
 					style={{ margin: 10 }}
@@ -92,8 +129,8 @@ const ShowTasks: React.FC<ShowTasksProps> = ({ task_list, complementaryFunction 
 									<div
 										style={{ flex: 1 }}
 										onClick={async () => {
-											await setTaskAsConcludedRequest(index);
-											await complementaryFunction();
+											await setOpenModalConfirm(true);
+											setSelectedTaskIndex(index);
 										}}>
 										{task.status === 'em progresso' ? (
 											<button className="primary-button">Concluir</button>
