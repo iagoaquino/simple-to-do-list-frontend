@@ -43,13 +43,15 @@ function App() {
 	return (
 		<div className="main-screen">
 			<Header />
-			<div style={{ height: '80%', display: 'flex', flexDirection: 'column' }} className="center">
+			<div
+				style={{ height: '80%', display: 'flex', flexDirection: 'column', overflowY: 'scroll' }}
+				className="center">
 				<SearchBar
 					search_value={search_value}
 					setSearchValue={setSearchValue}
 					searchFunction={search_task}
 				/>
-				<ShowTasks task_list={filtered_task} />
+				<ShowTasks task_list={filtered_task} complementaryFunction={load_tasks} />
 				<div style={{ padding: 10 }}>
 					<button
 						className="primary-button"
