@@ -44,8 +44,13 @@ function App() {
 		<div className="main-screen">
 			<Header />
 			<div
-				style={{ height: '80%', display: 'flex', flexDirection: 'column', overflowY: 'scroll' }}
-				className="center">
+				style={{
+					height: 'auto',
+					display: 'flex',
+					alignItems: 'center',
+					flexDirection: 'column',
+					overflowY: 'scroll',
+				}}>
 				<SearchBar
 					search_value={search_value}
 					setSearchValue={setSearchValue}

@@ -50,7 +50,7 @@ const CreateNewTaskModal: React.FC<CreateNewTaskModalProps> = ({
 	return (
 		<ModalComponent
 			modalOpenState={modal_state}
-			size={{ height: 'auto', width: '500px' }}
+			size={{ height: 'auto', width: 'auto' }}
 			Header={() => (
 				<div style={{ padding: '20px' }}>
 					<h4 className="no-margin">Inserir nova tarefa</h4>
