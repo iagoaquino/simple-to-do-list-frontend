@@ -1,18 +1,20 @@
+# Use Node 20 (possui crypto.hash e recursos recentes)
 FROM node:20-alpine
 
+# Diretório de trabalho dentro do container
 WORKDIR /app
 
-#Dependencies installation
+# Copiar apenas arquivos de dependências primeiro (cache eficiente)
 COPY package*.json ./
+
+# Instalar dependências
 RUN npm install
 
-#Folder preparation
-COPY *.cjs .
-COPY vite.config.ts .
-COPY ./src ./src
+# Copiar todo o restante do código
+COPY . .
 
-#Exposed port
+# Expor a porta padrão do Vite
 EXPOSE 5173
 
-#Command execution
+# Comando para rodar o dev server Vite
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
