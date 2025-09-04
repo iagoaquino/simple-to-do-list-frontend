@@ -8,13 +8,12 @@ export async function getAllTasksRequest(): Promise<ApiPatternResponse<Array<Tas
 	return response.data;
 }
 
-export async function insertNewTaskRequest(
-	task: TaskInterface
-): Promise<ApiPatternResponse<null>> {
+export async function insertNewTaskRequest(task: TaskInterface): Promise<ApiPatternResponse<null>> {
 	const response = await api.post('tasks', task);
 	return response.data;
 }
 
-export async function setTaskAsConcludedRequest(){
-	
-};
+export async function setTaskAsConcludedRequest(id: number): Promise<ApiPatternResponse<null>> {
+	const response = await api.patch(`tasks/${id}/done`);
+	return response.data;
+}
